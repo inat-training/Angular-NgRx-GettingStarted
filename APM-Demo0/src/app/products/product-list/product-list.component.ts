@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 
-import { Product } from '../product';
-import { ProductService } from '../product.service';
+import {Product} from '../product';
+import {ProductService} from '../product.service';
 
 @Component({
   selector: 'pm-product-list',
@@ -24,7 +24,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(private productService: ProductService,
-    private store: Store<any>) { }
+              private store: Store<any>) {
+  }
 
   ngOnInit(): void {
     this.sub = this.productService.selectedProductChanges$.subscribe(
@@ -39,11 +40,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     // TODO: unsubscribe
     this.store.select('products').subscribe(
       products => {
-        if(products){
+        if (products) {
           this.displayCode = products.showProductCode;
         }
       }
-    )
+    );
   }
 
   ngOnDestroy(): void {
@@ -52,8 +53,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   checkChanged(): void {
     this.store.dispatch({
-      type: '[Product] Toogle Product Code'
-    })
+      type: '[Product] Toggle Product Code'
+    });
   }
 
   newProduct(): void {

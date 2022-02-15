@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { type } from 'os';
 
 import { AuthService } from './auth.service';
 
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO 
-    this.store.select('user').subscribe(
+    this.store.select('users').subscribe(
       user =>{
         if(user){
           this.maskUserName = user.maskUserName;

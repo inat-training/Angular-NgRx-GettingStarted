@@ -7,7 +7,7 @@ import {
 export const productReducer = createReducer(
   { showProductCode: true},
   on(createAction('[Product] Toggle product Code'), state => {
-    return {
+     return {
       ...state,
       showProductCode: !state.showProductCode
     }

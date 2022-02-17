@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { reduce } from 'rxjs/operators';
 
 import { SharedModule } from '../shared/shared.module';
 

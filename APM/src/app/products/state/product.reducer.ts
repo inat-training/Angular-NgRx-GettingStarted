@@ -9,14 +9,15 @@ import { Product } from "../product";
 import * as AppState from "../../state/app.state"
 import * as ProductActions from "./product.actions";
 
-export interface State extends AppState.State{
+export interface State extends AppState.State {
   products: ProductState,
 }
 
 export interface ProductState {
-    showProductCode: boolean;
-    currentProduct: Product;
-    products: Product[]
+  showProductCode: boolean;
+  currentProduct: Product;
+  products: Product[],
+  error: String
 }
 
 const getProductFeatureState = createFeatureSelector<ProductState>('products');
@@ -31,6 +32,11 @@ export const getCurrentProduct = createSelector(
   state => state.currentProduct
 );
 
+export const getError = createSelector(
+  getProductFeatureState,
+  state => state.error
+);
+
 export const getProducts = createSelector(
   getProductFeatureState,
   state => state.products
@@ -39,31 +45,32 @@ export const getProducts = createSelector(
 const initialState: ProductState = {
   showProductCode: true,
   currentProduct: null,
-  products: []
+  products: [],
+  error: ''
 };
 
 export const productReducer = createReducer<ProductState>(
   initialState,
-  on(ProductActions.toggleProductCode, (state) : ProductState => {
-     return {
+  on(ProductActions.toggleProductCode, (state): ProductState => {
+    return {
       ...state,
       showProductCode: !state.showProductCode
     }
   }),
-  on(ProductActions.setCurrentProduct, (state, action) : ProductState => {
-     return {
+  on(ProductActions.setCurrentProduct, (state, action): ProductState => {
+    return {
       ...state,
       currentProduct: action.product
     }
   }),
-  on(ProductActions.clearCurrentProduct, (state, acttion) : ProductState => {
-     return {
+  on(ProductActions.clearCurrentProduct, (state, acttion): ProductState => {
+    return {
       ...state,
       currentProduct: null
     }
   }),
-  on(ProductActions.initCurrentProduct, (state, acttion) : ProductState => {
-     return {
+  on(ProductActions.initCurrentProduct, (state, acttion): ProductState => {
+    return {
       ...state,
       currentProduct: {
         id: 0,
@@ -72,6 +79,20 @@ export const productReducer = createReducer<ProductState>(
         description: '',
         starRating: 0
       }
+    }
+  }),
+  on(ProductActions.loadProductsSuccess, (state, action): ProductState => {
+    return {
+      ...state,
+      products: action.products,
+      error: ''
+    }
+  }),
+  on(ProductActions.loadProductsFailure, (state, actions): ProductState => {
+    return {
+      ...state,
+      products: [],
+      error: actions.error
     }
   })
 );
